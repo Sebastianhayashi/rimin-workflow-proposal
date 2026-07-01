@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>配信ワークフローについての提案｜古城りーみん</title>
+  <meta name="description" content="ライブ配信のワークフローについて、いくつかの可能性をまとめた短い提案です。">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap');
+
+    :root {
+      --color-primary: #1a1a2e;
+      --color-secondary: #16213e;
+      --color-accent: #c9a96e;
+      --color-text: #2d2d2d;
+      --color-text-light: #8a8a8a;
+      --color-bg: #fafaf8;
+      --color-bg-alt: #f0ede8;
+      --color-border: #e8e4de;
+      --font-display: "Noto Serif JP", "Source Han Serif CN", "Hiragino Mincho ProN", serif;
+      --font-body: "Noto Sans JP", "Source Han Sans CN", -apple-system, "PingFang SC", sans-serif;
+      --font-mono: "JetBrains Mono", "SF Mono", monospace;
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 2rem;
+      --space-lg: 4rem;
+      --space-xl: 6rem;
+      --space-xxl: 8rem;
+      --content-max-width: 640px;
+      --line-height-body: 1.85;
+      --line-height-heading: 1.3;
+      --letter-spacing-heading: -0.02em;
+      --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+      --duration-fast: 0.2s;
+      --duration-normal: 0.4s;
+      --duration-slow: 0.8s;
+      --reveal-offset: 30px;
+      --reveal-duration: 0.6s;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: var(--line-height-body);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Typography */
+    h1, h2, h3, .display {
+      font-family: var(--font-display);
+      font-weight: 600;
+      line-height: var(--line-height-heading);
+      letter-spacing: var(--letter-spacing-heading);
+      color: var(--color-primary);
+      margin: 0 0 var(--space-sm);
+    }
+
+    h1 { font-size: clamp(2.25rem, 7vw, 3.5rem); }
+    h2 { font-size: clamp(1.55rem, 5vw, 2.15rem); }
+    h3 { font-size: clamp(1.05rem, 3.5vw, 1.25rem); }
+
+    p { margin: 0 0 var(--space-sm); }
+    p:last-child { margin-bottom: 0; }
+
+    a { color: var(--color-primary); text-decoration: underline; text-decoration-color: var(--color-accent); text-underline-offset: 0.25em; }
+    a:hover { color: var(--color-accent); }
+
+    .eyebrow {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--color-accent);
+      margin-bottom: var(--space-sm);
+    }
+
+    .lead {
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 3vw, 1.3rem);
+      line-height: 1.7;
+      color: var(--color-text);
+    }
+
+    .caption {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--color-text-light);
+      letter-spacing: 0.04em;
+      margin-top: var(--space-xs);
+    }
+
+    /* Layout */
+    .container {
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+      padding-left: clamp(1.25rem, 5vw, 3rem);
+      padding-right: clamp(1.25rem, 5vw, 3rem);
+    }
+
+    section {
+      padding-top: var(--space-xl);
+      padding-bottom: var(--space-xl);
+      position: relative;
+    }
+
+    .alt { background: var(--color-bg-alt); }
+
+    .gold-line {
+      width: 60px;
+      height: 1px;
+      background: var(--color-accent);
+      margin: var(--space-md) auto;
+      border: none;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-top: var(--space-lg);
+      padding-bottom: var(--space-lg);
+    }
+
+    .hero__title { margin-bottom: var(--space-sm); }
+    .hero__subtitle {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--color-text-light);
+      margin-bottom: var(--space-md);
+    }
+    .hero__meta {
+      margin-top: auto;
+      padding-top: var(--space-xl);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-text-light);
+    }
+
+    /* Quote */
+    .observation-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 3.2vw, 1.4rem);
+      line-height: 1.65;
+      font-style: italic;
+      color: var(--color-primary);
+      margin: var(--space-md) 0 var(--space-lg);
+      padding-left: var(--space-md);
+      border-left: 2px solid var(--color-accent);
+    }
+
+    /* Lists */
+    .obs-list, .cards, .steps, .invest {
+      display: grid;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+
+    .obs-item {
+      display: flex;
+      gap: var(--space-sm);
+      align-items: flex-start;
+    }
+
+    .obs-icon, .card__icon {
+      flex: 0 0 44px;
+      width: 44px;
+      height: 44px;
+      color: var(--color-accent);
+    }
+
+    .obs-item h3 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1rem;
+      margin: 0 0 0.2rem;
+    }
+
+    .obs-item p {
+      font-size: 0.95rem;
+      color: var(--color-text);
+      margin: 0;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 2px;
+      padding: var(--space-md);
+      box-shadow: 0 2px 14px rgba(26,26,46,0.035);
+      transition: transform var(--duration-fast) var(--transition-smooth), box-shadow var(--duration-fast) var(--transition-smooth);
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(26,26,46,0.06);
+    }
+
+    .card h3 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin: 0 0 var(--space-xs);
+    }
+
+    .card p { font-size: 0.95rem; margin: 0; }
+
+    .card__effect {
+      margin-top: var(--space-sm);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--color-border);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-text-light);
+    }
+
+    /* Steps */
+    .step__header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xs);
+    }
+
+    .step__num {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--color-accent);
+      font-weight: 500;
+    }
+
+    .step h3 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .step__note {
+      font-size: 0.95rem;
+      color: var(--color-text);
+      margin-bottom: var(--space-md);
+    }
+
+    .effect-box {
+      display: inline-block;
+      margin-top: var(--space-sm);
+      padding: var(--space-xs) var(--space-sm);
+      background: rgba(201,169,110,0.10);
+      border-left: 2px solid var(--color-accent);
+      font-size: 0.9rem;
+      color: var(--color-primary);
+    }
+
+    /* Before / After */
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    @media (min-width: 520px) {
+      .before-after { grid-template-columns: 1fr 1fr; }
+    }
+
+    .ba-box {
+      border: 1px solid var(--color-border);
+      padding: var(--space-md);
+      background: var(--color-bg);
+    }
+
+    .ba-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-accent);
+      margin-bottom: var(--space-xs);
+    }
+
+    .ba-time {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      margin-top: var(--space-xs);
+    }
+
+    .ba-highlight {
+      display: inline-block;
+      margin-top: var(--space-sm);
+      font-size: 0.85rem;
+      color: var(--color-primary);
+      background: rgba(201,169,110,0.10);
+      padding: 0.15rem 0.5rem;
+    }
+
+    /* Investment */
+    .invest-item {
+      display: flex;
+      gap: var(--space-sm);
+      align-items: flex-start;
+      border-top: 1px solid var(--color-border);
+      padding-top: var(--space-md);
+    }
+
+    .invest-item:first-child { border-top: none; padding-top: 0; }
+
+    .invest-label {
+      flex: 0 0 6.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-accent);
+      padding-top: 0.15rem;
+    }
+
+    .invest-item p { font-size: 0.95rem; margin: 0; }
+
+    /* Diagrams */
+    .diagram {
+      width: 100%;
+      margin: var(--space-md) 0;
+    }
+
+    .diagram svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .diagram-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--color-text-light);
+      text-align: center;
+      margin-top: var(--space-xs);
+    }
+
+    /* Closing */
+    .closing {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-top: var(--space-xl);
+      padding-bottom: var(--space-xxl);
+    }
+
+    .closing__summary {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 4vw, 1.65rem);
+      line-height: 1.55;
+      color: var(--color-primary);
+      max-width: 520px;
+      margin: 0 auto var(--space-lg);
+    }
+
+    .closing__next {
+      font-size: 1rem;
+      color: var(--color-text);
+      max-width: 480px;
+      margin: 0 auto var(--space-xl);
+    }
+
+    .signature {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: var(--color-primary);
+      margin-bottom: var(--space-xs);
+    }
+
+    .contact {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-text-light);
+    }
+
+    .closing .gold-line { margin: var(--space-md) auto var(--space-lg); }
+
+    /* Reveal animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(var(--reveal-offset));
+      transition: opacity var(--reveal-duration) var(--transition-smooth), transform var(--reveal-duration) var(--transition-smooth);
+      will-change: opacity, transform;
+    }
+
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .card:hover { transform: none; }
+    }
+
+    /* Print */
+    @media print {
+      body { background: #fff !important; color: #000 !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      section { padding-top: 48px; padding-bottom: 48px; page-break-inside: avoid; }
+      .card, .ba-box, .obs-item, .invest-item, .diagram { page-break-inside: avoid; }
+      .hero, .closing { min-height: auto; }
+      a { text-decoration: none; color: #000; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Shared SVG filters -->
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute;">
+    <defs>
+      <filter id="sketch" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+        <path d="M0,0 L0,6 L8,3 z" fill="#1a1a2e"/>
+      </marker>
+    </defs>
+  </svg>
+
+  <article>
+
+    <!-- Act 1: Opening -->
+    <section class="hero">
+      <div class="container">
+        <div class="reveal">
+          <h1 class="hero__title">少しだけ、<br>時間を取り戻せるかもしれない</h1>
+          <p class="hero__subtitle">ライブ配信のワークフローについて、いくつかの観察</p>
+          <div class="gold-line" aria-hidden="true"></div>
+        </div>
+      </div>
+      <p class="hero__meta reveal stagger-1">2026.07.01 / from Sebastian Lim</p>
+    </section>
+
+    <!-- Act 2: Observations -->
+    <section>
+      <div class="container">
+        <span class="eyebrow reveal">01 / 観察</span>
+        <h2 class="reveal stagger-1">配信が終わったあとも、<br>手は止まらない</h2>
+
+        <blockquote class="observation-quote reveal stagger-2">
+          長い配信を終えたあと、タイムスタンプ、字幕、告知、切り抜き——どれもあなたの手を止めているように見えた。
+        </blockquote>
+
+        <div class="obs-list">
+          <div class="obs-item reveal stagger-1">
+            <svg class="obs-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 28c0-6 6-10 10-10s10 4 10 10-6 10-10 10"/>
+              <path d="M18 34l4 4 4-4"/>
+              <path d="M24 12v6"/>
+            </svg>
+            <div>
+              <h3>手作業が多い</h3>
+              <p>タイムスタンプや字幕、告知など、機械的な作業が目立つ。</p>
+            </div>
+          </div>
+
+          <div class="obs-item reveal stagger-2">
+            <svg class="obs-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="20" cy="20" r="10"/>
+              <path d="M28 28l10 10"/>
+              <path d="M16 20h8"/>
+            </svg>
+            <div>
+              <h3>情報収集に時間がかかる</h3>
+              <p>新作情報やネタ探しが、配信以外でも頭を占めている。</p>
+            </div>
+          </div>
+
+          <div class="obs-item reveal stagger-3">
+            <svg class="obs-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M8 36V12l8-4 8 4 8-4 8 4v24l-8 4-8-4-8 4-8-4z"/>
+              <path d="M16 12v24"/>
+              <path d="M24 16v24"/>
+              <path d="M32 8v24"/>
+            </svg>
+            <div>
+              <h3>作業の見通しが立ちにくい</h3>
+              <p>進捗や優先順位が、あなたの頭の中に閉じがち。</p>
+            </div>
+          </div>
+        </div>
+
+        <figure class="diagram reveal">
+          <svg viewBox="0 0 600 160" role="img" aria-label="いまの流れ：配信後に手作業で切り出し、字幕と告知を作り、最後に投稿する">
+            <g filter="url(#sketch)" stroke="#1a1a2e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="20" y="40" width="115" height="80" rx="4"/>
+              <rect x="175" y="40" width="115" height="80" rx="4"/>
+              <rect x="330" y="40" width="115" height="80" rx="4"/>
+              <rect x="485" y="40" width="100" height="80" rx="4"/>
+              <line x1="135" y1="80" x2="170" y2="80" marker-end="url(#arrowhead)"/>
+              <line x1="290" y1="80" x2="325" y2="80" marker-end="url(#arrowhead)"/>
+              <line x1="445" y1="80" x2="480" y2="80" marker-end="url(#arrowhead)"/>
+            </g>
+            <text x="77" y="82" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="13" fill="#2d2d2d">配信</text>
+            <text x="232" y="75" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">手作業</text>
+            <text x="232" y="92" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">切り出し</text>
+            <text x="387" y="75" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">手作業</text>
+            <text x="387" y="92" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">字幕・告知</text>
+            <text x="535" y="82" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="13" fill="#2d2d2d">投稿</text>
+          </svg>
+          <figcaption class="diagram-label">いまの流れ</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Act 3: Possibilities -->
+    <section class="alt">
+      <div class="container">
+        <span class="eyebrow reveal">02 / もしそうするなら</span>
+        <h2 class="reveal stagger-1">負担を減らす、<br>三つの可能性</h2>
+
+        <div class="cards">
+          <article class="card reveal stagger-1">
+            <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M8 18h32v20H8z"/>
+              <path d="M8 18l16-10 16 10"/>
+              <path d="M20 30h8"/>
+            </svg>
+            <h3>情報を自動で集める</h3>
+            <p>YouTubeやX、RSSなどから関連情報を一箇所にまとめる。</p>
+            <div class="card__effect">効果：毎朝の情報収集が短くなる</div>
+          </article>
+
+          <article class="card reveal stagger-2">
+            <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M24 12v6"/>
+              <path d="M24 30v6"/>
+              <path d="M12 24h6"/>
+              <path d="M30 24h6"/>
+              <circle cx="24" cy="24" r="6"/>
+              <path d="M34 14l3-3"/>
+              <path d="M11 37l3-3"/>
+            </svg>
+            <h3>AIで下書きを作る</h3>
+            <p>タイムスタンプや字幕、告知文の下書きを自動生成する。</p>
+            <div class="card__effect">効果：機械的作業を減らしつつ、言い回しはそのまま残す</div>
+          </article>
+
+          <article class="card reveal stagger-3">
+            <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="6" y="10" width="12" height="28" rx="2"/>
+              <rect x="18" y="10" width="12" height="28" rx="2"/>
+              <rect x="30" y="10" width="12" height="28" rx="2"/>
+              <circle cx="12" cy="18" r="2" fill="currentColor"/>
+              <circle cx="24" cy="28" r="2" fill="currentColor"/>
+              <circle cx="36" cy="22" r="2" fill="currentColor"/>
+            </svg>
+            <h3>ワークフローを見える化</h3>
+            <p>今どの作業が滞留しているか、一目でわかるダッシュボード。</p>
+            <div class="card__effect">効果：次に何をすべきか、考える時間が減る</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Act 4: How -->
+    <section>
+      <div class="container">
+        <span class="eyebrow reveal">03 / 具体的な流れ</span>
+        <h2 class="reveal stagger-1">導入は、<br>できるだけ小さく</h2>
+
+        <div class="steps">
+          <article class="step reveal">
+            <div class="step__header">
+              <span class="step__num">Step 01</span>
+              <h3>情報を一箇所に集める</h3>
+            </div>
+            <p class="step__note">複数の情報源を一つのダイジェストにまとめる。毎日個別に巡る必要が減る。</p>
+            <figure class="diagram">
+              <svg viewBox="0 0 600 200" role="img" aria-label="YouTube、X、RSS、Newsから情報が一つのダイジェストに集まる">
+                <g filter="url(#sketch)" stroke="#1a1a2e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="30" y="20" width="95" height="50" rx="4"/>
+                  <rect x="30" y="90" width="95" height="50" rx="4"/>
+                  <rect x="30" y="160" width="95" height="30" rx="4"/>
+                  <rect x="480" y="60" width="110" height="80" rx="4"/>
+                  <line x1="125" y1="45" x2="475" y2="90" marker-end="url(#arrowhead)"/>
+                  <line x1="125" y1="115" x2="475" y2="100" marker-end="url(#arrowhead)"/>
+                  <line x1="125" y1="175" x2="475" y2="110" marker-end="url(#arrowhead)"/>
+                </g>
+                <text x="77" y="50" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">YouTube</text>
+                <text x="77" y="120" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">X</text>
+                <text x="77" y="180" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="11" fill="#2d2d2d">RSS・News</text>
+                <text x="535" y="105" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="14" fill="#2d2d2d">Digest</text>
+              </svg>
+              <figcaption class="diagram-label">情報収集のイメージ</figcaption>
+            </figure>
+            <div class="effect-box">毎日の情報収集を15分以内に</div>
+          </article>
+
+          <article class="step reveal stagger-1">
+            <div class="step__header">
+              <span class="step__num">Step 02</span>
+              <h3>AIで下書きを作り、あなたが微修正する</h3>
+            </div>
+            <p class="step__note">下書きは機械が作る。最後の判断とトーンは、あなたのまま。</p>
+            <div class="before-after">
+              <div class="ba-box">
+                <div class="ba-label">Before</div>
+                <p>手作業でタイムスタンプを打つ</p>
+                <p class="ba-time">約 60 分 / 配信</p>
+              </div>
+              <div class="ba-box">
+                <div class="ba-label">After</div>
+                <p>自動生成を確認・微修正する</p>
+                <p class="ba-time">約 10 分 / 配信</p>
+              </div>
+            </div>
+            <div class="ba-highlight">個人の言い回しやトーンは変えない</div>
+          </article>
+
+          <article class="step reveal stagger-2">
+            <div class="step__header">
+              <span class="step__num">Step 03</span>
+              <h3>進捗を見える化する</h3>
+            </div>
+            <p class="step__note">シンプルなレーンで、各作業の状態を把握する。</p>
+            <figure class="diagram">
+              <svg viewBox="0 0 600 150" role="img" aria-label="ダッシュボード：収集中、編集中、公開済みのレーン">
+                <g filter="url(#sketch)" stroke="#1a1a2e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="20" y="30" width="170" height="110" rx="4"/>
+                  <rect x="215" y="30" width="170" height="110" rx="4"/>
+                  <rect x="410" y="30" width="170" height="110" rx="4"/>
+                  <rect x="40" y="55" width="130" height="32" rx="3" fill="rgba(201,169,110,0.12)"/>
+                  <rect x="235" y="55" width="130" height="32" rx="3" fill="rgba(201,169,110,0.12)"/>
+                  <rect x="235" y="95" width="130" height="32" rx="3" fill="rgba(201,169,110,0.12)"/>
+                  <rect x="430" y="55" width="130" height="32" rx="3" fill="rgba(201,169,110,0.12)"/>
+                </g>
+                <text x="105" y="22" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#8a8a8a">収集中</text>
+                <text x="300" y="22" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#8a8a8a">編集中</text>
+                <text x="495" y="22" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#8a8a8a">公開済み</text>
+                <text x="105" y="76" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="11" fill="#2d2d2d">アーカイブA</text>
+                <text x="300" y="76" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="11" fill="#2d2d2d">切り抜き01</text>
+                <text x="300" y="116" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="11" fill="#2d2d2d">告知文案</text>
+                <text x="495" y="76" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="11" fill="#2d2d2d">ショート動画</text>
+              </svg>
+              <figcaption class="diagram-label">ワークフローダッシュボードのイメージ</figcaption>
+            </figure>
+            <div class="effect-box">次に何をすべきか、考える時間が減る</div>
+          </article>
+        </div>
+
+        <div class="invest reveal">
+          <div class="invest-item">
+            <div class="invest-label">セットアップ側</div>
+            <p>技術構成と初回導入（約1週間）。この部分はこちらでやる。</p>
+          </div>
+          <div class="invest-item">
+            <div class="invest-label">使う側</div>
+            <p>ほぼゼロ。作ったものをそのまま使うだけ。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Act 5: Closing -->
+    <section class="closing">
+      <div class="container">
+        <div class="gold-line reveal" aria-hidden="true"></div>
+        <p class="closing__summary reveal stagger-1">
+          これらはあくまで一つの可能性。<br>決めるのは、いつもあなただ。
+        </p>
+        <p class="closing__next reveal stagger-2">
+          もし気が向いたら、何か話したいことがあれば。<br>無理に返事をする必要はない。
+        </p>
+        <p class="signature reveal stagger-3">Sebastian Lim</p>
+        <p class="contact reveal stagger-3">いつでもDMください</p>
+      </div>
+    </section>
+
+  </article>
+
+  <script>
+    (function() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var reveals = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        reveals.forEach(function(el) { el.classList.add('is-visible'); });
+        return;
+      }
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+      reveals.forEach(function(el) { observer.observe(el); });
+
+      // Fallback: ensure content is visible even if the observer does not fire (e.g. some static renderers)
+      setTimeout(function() {
+        reveals.forEach(function(el) {
+          if (!el.classList.contains('is-visible')) el.classList.add('is-visible');
+        });
+      }, 2000);
+    })();
+  </script>
+</body>
+</html>
