@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>配信ワークフローについての提案｜古城りーみん</title>
-  <meta name="description" content="ライブ配信のワークフローについて、いくつかの可能性をまとめた短い提案です。">
+  <title>古城りーみんへのメモ</title>
+  <meta name="description" content="ライブ配信のワークフローについて、いくつかの観察と提案をまとめたメモです。">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap');
 
@@ -53,7 +53,6 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Typography */
     h1, h2, h3, .display {
       font-family: var(--font-display);
       font-weight: 600;
@@ -63,14 +62,19 @@
       margin: 0 0 var(--space-sm);
     }
 
-    h1 { font-size: clamp(2.25rem, 7vw, 3.5rem); }
-    h2 { font-size: clamp(1.55rem, 5vw, 2.15rem); }
+    h1 { font-size: clamp(2.1rem, 6.5vw, 3.2rem); }
+    h2 { font-size: clamp(1.45rem, 4.5vw, 1.95rem); }
     h3 { font-size: clamp(1.05rem, 3.5vw, 1.25rem); }
 
     p { margin: 0 0 var(--space-sm); }
     p:last-child { margin-bottom: 0; }
 
-    a { color: var(--color-primary); text-decoration: underline; text-decoration-color: var(--color-accent); text-underline-offset: 0.25em; }
+    a {
+      color: var(--color-primary);
+      text-decoration: underline;
+      text-decoration-color: var(--color-accent);
+      text-underline-offset: 0.25em;
+    }
     a:hover { color: var(--color-accent); }
 
     .eyebrow {
@@ -78,28 +82,11 @@
       font-family: var(--font-mono);
       font-size: 0.72rem;
       font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.1em;
       color: var(--color-accent);
       margin-bottom: var(--space-sm);
     }
 
-    .lead {
-      font-family: var(--font-display);
-      font-size: clamp(1.05rem, 3vw, 1.3rem);
-      line-height: 1.7;
-      color: var(--color-text);
-    }
-
-    .caption {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--color-text-light);
-      letter-spacing: 0.04em;
-      margin-top: var(--space-xs);
-    }
-
-    /* Layout */
     .container {
       max-width: var(--content-max-width);
       margin: 0 auto;
@@ -135,13 +122,58 @@
       padding-bottom: var(--space-lg);
     }
 
+    .hero__marker {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-accent);
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-sm);
+    }
+
     .hero__title { margin-bottom: var(--space-sm); }
+
     .hero__subtitle {
       font-family: var(--font-body);
       font-size: 0.95rem;
       color: var(--color-text-light);
       margin-bottom: var(--space-md);
     }
+
+    .hero__lead {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.8vw, 1.2rem);
+      line-height: 1.75;
+      color: var(--color-text);
+      max-width: 520px;
+      margin: 0 auto var(--space-md);
+    }
+
+    .hero__values {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      max-width: 520px;
+      margin: 0 auto var(--space-lg);
+    }
+
+    .value-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--color-border);
+      background: rgba(255,255,255,0.5);
+      padding: 0.6rem 0.9rem;
+      font-size: 0.85rem;
+      color: var(--color-primary);
+    }
+
+    .value-chip__num {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--color-accent);
+    }
+
     .hero__meta {
       margin-top: auto;
       padding-top: var(--space-xl);
@@ -150,187 +182,361 @@
       color: var(--color-text-light);
     }
 
-    /* Quote */
-    .observation-quote {
+    /* Body typography */
+    .lead {
       font-family: var(--font-display);
-      font-size: clamp(1.1rem, 3.2vw, 1.4rem);
-      line-height: 1.65;
-      font-style: italic;
-      color: var(--color-primary);
-      margin: var(--space-md) 0 var(--space-lg);
-      padding-left: var(--space-md);
-      border-left: 2px solid var(--color-accent);
+      font-size: clamp(1rem, 2.8vw, 1.2rem);
+      line-height: 1.75;
     }
 
-    /* Lists */
-    .obs-list, .cards, .steps, .invest {
-      display: grid;
-      gap: var(--space-md);
-      margin-top: var(--space-lg);
-    }
-
-    .obs-item {
-      display: flex;
-      gap: var(--space-sm);
-      align-items: flex-start;
-    }
-
-    .obs-icon, .card__icon {
-      flex: 0 0 44px;
-      width: 44px;
-      height: 44px;
+    .drop-cap::first-letter {
+      float: left;
+      font-size: 3.2rem;
+      line-height: 0.85;
+      margin: 0.12em 0.18em 0 0;
+      font-family: var(--font-display);
       color: var(--color-accent);
-    }
-
-    .obs-item h3 {
-      font-family: var(--font-body);
       font-weight: 700;
-      font-size: 1rem;
-      margin: 0 0 0.2rem;
     }
 
-    .obs-item p {
-      font-size: 0.95rem;
-      color: var(--color-text);
-      margin: 0;
-    }
-
-    /* Cards */
-    .card {
-      background: var(--color-bg);
-      border: 1px solid var(--color-border);
-      border-radius: 2px;
-      padding: var(--space-md);
-      box-shadow: 0 2px 14px rgba(26,26,46,0.035);
-      transition: transform var(--duration-fast) var(--transition-smooth), box-shadow var(--duration-fast) var(--transition-smooth);
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(26,26,46,0.06);
-    }
-
-    .card h3 {
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 1.05rem;
-      margin: 0 0 var(--space-xs);
-    }
-
-    .card p { font-size: 0.95rem; margin: 0; }
-
-    .card__effect {
-      margin-top: var(--space-sm);
-      padding-top: var(--space-sm);
-      border-top: 1px solid var(--color-border);
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--color-text-light);
-    }
-
-    /* Steps */
-    .step__header {
-      display: flex;
-      align-items: baseline;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-xs);
-    }
-
-    .step__num {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--color-accent);
-      font-weight: 500;
-    }
-
-    .step h3 {
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 1.1rem;
-      margin: 0;
-    }
-
-    .step__note {
-      font-size: 0.95rem;
-      color: var(--color-text);
-      margin-bottom: var(--space-md);
-    }
-
-    .effect-box {
-      display: inline-block;
-      margin-top: var(--space-sm);
-      padding: var(--space-xs) var(--space-sm);
-      background: rgba(201,169,110,0.10);
-      border-left: 2px solid var(--color-accent);
-      font-size: 0.9rem;
-      color: var(--color-primary);
-    }
-
-    /* Before / After */
-    .before-after {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--space-md);
-      margin-top: var(--space-md);
-    }
-
-    @media (min-width: 520px) {
-      .before-after { grid-template-columns: 1fr 1fr; }
-    }
-
-    .ba-box {
-      border: 1px solid var(--color-border);
-      padding: var(--space-md);
-      background: var(--color-bg);
-    }
-
-    .ba-label {
+    .small { font-size: 0.9rem; }
+    .caption {
       font-family: var(--font-mono);
       font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--color-accent);
-      margin-bottom: var(--space-xs);
+      color: var(--color-text-light);
+      letter-spacing: 0.04em;
+      margin-top: var(--space-xs);
     }
 
-    .ba-time {
+    /* Emphasis boxes */
+    .note {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+    }
+
+    .note--warm {
+      background: #fffbf5;
+      border-color: #f0e6d6;
+    }
+
+    .note--highlight {
+      background: #f7faf7;
+      border-color: #e0ebe0;
+    }
+
+    .note p { margin: 0; }
+    .note p + p { margin-top: 0.6rem; }
+
+    /* Quote / source */
+    blockquote {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.8vw, 1.2rem);
+      line-height: 1.75;
+      color: var(--color-primary);
+      margin: var(--space-md) 0;
+      padding: var(--space-sm) var(--space-md);
+      border-left: 2px solid var(--color-accent);
+    }
+
+    blockquote.quoted { font-style: italic; }
+
+    .source {
+      display: block;
       font-family: var(--font-mono);
-      font-size: 0.9rem;
+      font-size: 0.7rem;
       color: var(--color-text-light);
       margin-top: var(--space-xs);
     }
 
-    .ba-highlight {
-      display: inline-block;
-      margin-top: var(--space-sm);
-      font-size: 0.85rem;
-      color: var(--color-primary);
-      background: rgba(201,169,110,0.10);
-      padding: 0.15rem 0.5rem;
+    /* Lists */
+    .video-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-xs);
+      margin: var(--space-md) 0;
     }
 
-    /* Investment */
-    .invest-item {
-      display: flex;
+    @media (min-width: 480px) {
+      .video-list { grid-template-columns: 1fr 1fr; }
+    }
+
+    .video-item {
+      font-size: 0.85rem;
+      color: var(--color-text);
+      padding: 0.5rem 0.75rem;
+      background: #fff;
+      border: 1px solid var(--color-border);
+    }
+
+    .section-subtitle {
+      font-weight: 700;
+      font-size: 1rem;
+      margin: var(--space-md) 0 var(--space-sm);
+      color: var(--color-primary);
+    }
+
+    /* Roadmap cards */
+    .roadmap {
+      display: grid;
       gap: var(--space-sm);
-      align-items: flex-start;
+      margin: var(--space-md) 0;
+    }
+
+    @media (min-width: 520px) {
+      .roadmap { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .roadmap-item {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      padding: var(--space-md) var(--space-sm);
+    }
+
+    .roadmap-item__num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-accent);
+      margin-bottom: var(--space-xs);
+    }
+
+    .roadmap-item__title {
+      font-weight: 700;
+      font-size: 0.98rem;
+      margin-bottom: 0.3rem;
+      color: var(--color-primary);
+    }
+
+    .roadmap-item__desc {
+      font-size: 0.88rem;
+      color: var(--color-text);
+      line-height: 1.7;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      margin: var(--space-md) 0;
+      padding-left: 1.5rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0.35rem;
+      top: 0.6rem;
+      bottom: 0.6rem;
+      width: 1px;
+      background: var(--color-border);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: var(--space-md);
+      padding-left: 1.25rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.15rem;
+      top: 0.55rem;
+      width: 9px;
+      height: 9px;
+      background: var(--color-bg);
+      border: 2px solid var(--color-accent);
+      border-radius: 50%;
+    }
+
+    .timeline-item__title {
+      font-weight: 700;
+      font-size: 0.98rem;
+      margin-bottom: 0.2rem;
+      color: var(--color-primary);
+    }
+
+    .timeline-item__desc {
+      font-size: 0.88rem;
+      color: var(--color-text);
+      line-height: 1.7;
+    }
+
+    /* Code block */
+    .code-block {
+      background: var(--color-primary);
+      color: #e8e4de;
+      padding: var(--space-md);
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: var(--space-md) 0;
+    }
+
+    /* Comparison */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-sm);
+      margin: var(--space-md) 0;
+    }
+
+    @media (min-width: 520px) {
+      .comparison { grid-template-columns: 1fr 1fr; }
+    }
+
+    .comparison__box {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      padding: var(--space-md);
+    }
+
+    .comparison__label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--color-accent);
+      letter-spacing: 0.08em;
+      margin-bottom: var(--space-xs);
+    }
+
+    .comparison__time {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--color-text-light);
+      margin-top: var(--space-xs);
+    }
+
+    /* Market map */
+    .market-map {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+      margin: var(--space-md) 0;
+    }
+
+    .market-card {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      padding: var(--space-md) var(--space-sm);
+    }
+
+    .market-card__label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--color-accent);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.3rem;
+    }
+
+    .market-card__title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+      color: var(--color-primary);
+    }
+
+    .market-card p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+
+    /* Plan cards */
+    .plan-grid {
+      display: grid;
+      gap: var(--space-sm);
+      margin: var(--space-md) 0;
+    }
+
+    @media (min-width: 520px) {
+      .plan-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .plan-card {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      padding: var(--space-md) var(--space-sm);
+    }
+
+    .plan-card h4 {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin: 0 0 0.4rem;
+      color: var(--color-primary);
+    }
+
+    .plan-card p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+
+    /* Investment note */
+    .investment {
+      margin: var(--space-md) 0;
       border-top: 1px solid var(--color-border);
       padding-top: var(--space-md);
     }
 
-    .invest-item:first-child { border-top: none; padding-top: 0; }
+    .investment__row {
+      display: flex;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
 
-    .invest-label {
+    .investment__row:last-child { margin-bottom: 0; }
+
+    .investment__label {
       flex: 0 0 6.5rem;
       font-family: var(--font-mono);
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+      color: var(--color-accent);
+      letter-spacing: 0.06em;
+      padding-top: 0.15rem;
+    }
+
+    .investment__row p {
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    /* Numbered closing list */
+    .numbered-list {
+      display: grid;
+      gap: var(--space-sm);
+      margin: var(--space-md) 0;
+      max-width: 520px;
+    }
+
+    .numbered-item {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid var(--color-border);
+      padding: 0.9rem 1rem;
+    }
+
+    .numbered-item__num {
+      flex: 0 0 26px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
       color: var(--color-accent);
       padding-top: 0.15rem;
     }
 
-    .invest-item p { font-size: 0.95rem; margin: 0; }
+    .numbered-item__title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+      color: var(--color-primary);
+    }
+
+    .numbered-item__desc {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--color-text);
+    }
 
     /* Diagrams */
     .diagram {
@@ -346,7 +552,7 @@
 
     .diagram-label {
       font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--color-text-light);
       text-align: center;
       margin-top: var(--space-xs);
@@ -364,10 +570,10 @@
       padding-bottom: var(--space-xxl);
     }
 
-    .closing__summary {
+    .closing__statement {
       font-family: var(--font-display);
-      font-size: clamp(1.2rem, 4vw, 1.65rem);
-      line-height: 1.55;
+      font-size: clamp(1.15rem, 3.5vw, 1.5rem);
+      line-height: 1.6;
       color: var(--color-primary);
       max-width: 520px;
       margin: 0 auto var(--space-lg);
@@ -411,15 +617,13 @@
 
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-      .card:hover { transform: none; }
     }
 
-    /* Print */
     @media print {
       body { background: #fff !important; color: #000 !important; }
       .reveal { opacity: 1 !important; transform: none !important; }
       section { padding-top: 48px; padding-bottom: 48px; page-break-inside: avoid; }
-      .card, .ba-box, .obs-item, .invest-item, .diagram { page-break-inside: avoid; }
+      .note, .roadmap-item, .timeline-item, .comparison__box, .market-card, .plan-card, .numbered-item, .diagram { page-break-inside: avoid; }
       .hero, .closing { min-height: auto; }
       a { text-decoration: none; color: #000; }
     }
@@ -427,7 +631,6 @@
 </head>
 <body>
 
-  <!-- Shared SVG filters -->
   <svg width="0" height="0" aria-hidden="true" style="position:absolute;">
     <defs>
       <filter id="sketch" x="-20%" y="-20%" width="140%" height="140%">
@@ -442,251 +645,278 @@
 
   <article>
 
-    <!-- Act 1: Opening -->
+    <!-- 第一幕：开场 -->
     <section class="hero">
       <div class="container">
         <div class="reveal">
-          <h1 class="hero__title">少しだけ、<br>時間を取り戻せるかもしれない</h1>
+          <div class="hero__marker">for 古城りーみん</div>
+          <h1 class="hero__title">古城りーみん<br>へのメモ</h1>
           <p class="hero__subtitle">ライブ配信のワークフローについて、いくつかの観察</p>
           <div class="gold-line" aria-hidden="true"></div>
+          <p class="hero__lead">最初に言っておくね。これは overlay の注文書じゃない。あなたがもう少し楽になって、これからの形を一緒に考えられたらいいな、という私からの提案。</p>
+
+          <div class="hero__values">
+            <div class="value-chip reveal stagger-1">
+              <span class="value-chip__num">01</span>
+              <span>負担を減らす</span>
+            </div>
+            <div class="value-chip reveal stagger-2">
+              <span class="value-chip__num">02</span>
+              <span>自動化で時短</span>
+            </div>
+            <div class="value-chip reveal stagger-3">
+              <span class="value-chip__num">03</span>
+              <span>専門家ルート</span>
+            </div>
+          </div>
         </div>
       </div>
-      <p class="hero__meta reveal stagger-1">2026.07.01 / from Sebastian Lim</p>
+      <p class="hero__meta reveal stagger-2">2026.07.01 / from Sebastian Lim</p>
     </section>
 
-    <!-- Act 2: Observations -->
+    <!-- 第二幕：现状观察 -->
     <section>
       <div class="container">
-        <span class="eyebrow reveal">01 / 観察</span>
-        <h2 class="reveal stagger-1">配信が終わったあとも、<br>手は止まらない</h2>
+        <span class="eyebrow reveal">一、観察</span>
+        <h2 class="reveal stagger-1">まず正直に言うと、<br>あなたはかなり疲れている</h2>
 
-        <blockquote class="observation-quote reveal stagger-2">
-          長い配信を終えたあと、タイムスタンプ、字幕、告知、切り抜き——どれもあなたの手を止めているように見えた。
+        <p class="drop-cap reveal stagger-2">一ヶ月前、X の DM で overlay の話をもらって調べ始めた。でも調べれば調べるほど、overlay よりもっと先にやるべきことがあるって思うようになった。それは、単純にあなたが疲れすぎている、ってこと。</p>
+
+        <div class="note note--warm reveal stagger-3">
+          <p>遠慮せずに言う。今は overlay を新しく作るタイミングじゃないと思う。手伝いたい人間が、かえってあなたに仕事を増やす形になるのは避けたい。</p>
+        </div>
+
+        <h3 class="section-subtitle reveal">疲れやストレスを語っている動画</h3>
+        <div class="video-list reveal stagger-1">
+          <div class="video-item">【雑談】疲れてるみんなで傷をなめあおう！！</div>
+          <div class="video-item">【雑談】一時間だけでごめんね</div>
+          <div class="video-item">冬季うつ雑談</div>
+          <div class="video-item">【ゲリラ作業雑談】動画制作全然進まないのん</div>
+          <div class="video-item">動画が作れない(´;ω;｀)愚か者による雑談</div>
+          <div class="video-item">これまでに動画出せたらひたすら叩く！！</div>
+        </div>
+
+        <h2 class="reveal">だから、overlay は今じゃない</h2>
+
+        <p class="reveal stagger-1">overlay については、VTuberデザイン大全っていう業界レポートを読んで整理してみた。結論、overlay だけでは限界がある。</p>
+
+        <blockquote class="quoted reveal stagger-2">
+          参考・自作でも外注でも、まずは『コンセプト』や『世界観』を固めることからスタート。他の VTuber の作品だけでなく、映画やライブ、漫画なども参考になります。いろいろやろうと欲張らず、取捨選択することも必要です。「いちばん力を入れたい場面」をイメージし、見てほしい優先順位をつけましょう。
+          <span class="source">出典：VTuberデザイン大全 p.154</span>
         </blockquote>
 
-        <div class="obs-list">
-          <div class="obs-item reveal stagger-1">
-            <svg class="obs-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M14 28c0-6 6-10 10-10s10 4 10 10-6 10-10 10"/>
-              <path d="M18 34l4 4 4-4"/>
-              <path d="M24 12v6"/>
-            </svg>
-            <div>
-              <h3>手作業が多い</h3>
-              <p>タイムスタンプや字幕、告知など、機械的な作業が目立つ。</p>
-            </div>
-          </div>
+        <p class="reveal">この本では、overlay を作る前に世界観を決めろって書いてある。世界観はあなたが決めるもので、AI が代わりに決めてあげることはできない。だから overlay のデザインは、最終的にあなたの領域。</p>
 
-          <div class="obs-item reveal stagger-2">
-            <svg class="obs-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="20" cy="20" r="10"/>
-              <path d="M28 28l10 10"/>
-              <path d="M16 20h8"/>
-            </svg>
-            <div>
-              <h3>情報収集に時間がかかる</h3>
-              <p>新作情報やネタ探しが、配信以外でも頭を占めている。</p>
-            </div>
-          </div>
+        <p class="reveal stagger-1">つまり overlay は中身じゃなくて窓口。アイテム名を決める前に、それらがどんな世界観を伝えるかという土台が必要だ。</p>
 
-          <div class="obs-item reveal stagger-3">
-            <svg class="obs-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M8 36V12l8-4 8 4 8-4 8 4v24l-8 4-8-4-8 4-8-4z"/>
-              <path d="M16 12v24"/>
-              <path d="M24 16v24"/>
-              <path d="M32 8v24"/>
-            </svg>
-            <div>
-              <h3>作業の見通しが立ちにくい</h3>
-              <p>進捗や優先順位が、あなたの頭の中に閉じがち。</p>
-            </div>
-          </div>
+        <div class="note note--warm reveal stagger-2">
+          <p>今やりたいのは見た目を新しくすることじゃなくて、今のままでもっと楽に回せる仕組みを作ること。</p>
         </div>
-
-        <figure class="diagram reveal">
-          <svg viewBox="0 0 600 160" role="img" aria-label="いまの流れ：配信後に手作業で切り出し、字幕と告知を作り、最後に投稿する">
-            <g filter="url(#sketch)" stroke="#1a1a2e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="20" y="40" width="115" height="80" rx="4"/>
-              <rect x="175" y="40" width="115" height="80" rx="4"/>
-              <rect x="330" y="40" width="115" height="80" rx="4"/>
-              <rect x="485" y="40" width="100" height="80" rx="4"/>
-              <line x1="135" y1="80" x2="170" y2="80" marker-end="url(#arrowhead)"/>
-              <line x1="290" y1="80" x2="325" y2="80" marker-end="url(#arrowhead)"/>
-              <line x1="445" y1="80" x2="480" y2="80" marker-end="url(#arrowhead)"/>
-            </g>
-            <text x="77" y="82" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="13" fill="#2d2d2d">配信</text>
-            <text x="232" y="75" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">手作業</text>
-            <text x="232" y="92" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">切り出し</text>
-            <text x="387" y="75" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">手作業</text>
-            <text x="387" y="92" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">字幕・告知</text>
-            <text x="535" y="82" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="13" fill="#2d2d2d">投稿</text>
-          </svg>
-          <figcaption class="diagram-label">いまの流れ</figcaption>
-        </figure>
       </div>
     </section>
 
-    <!-- Act 3: Possibilities -->
+    <!-- 第三幕：可能性 -->
     <section class="alt">
       <div class="container">
-        <span class="eyebrow reveal">02 / もしそうするなら</span>
-        <h2 class="reveal stagger-1">負担を減らす、<br>三つの可能性</h2>
+        <span class="eyebrow reveal">二、もしそうするなら</span>
+        <h2 class="reveal stagger-1">まずは負担を減らすところから</h2>
 
-        <div class="cards">
-          <article class="card reveal stagger-1">
-            <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M8 18h32v20H8z"/>
-              <path d="M8 18l16-10 16 10"/>
-              <path d="M20 30h8"/>
-            </svg>
-            <h3>情報を自動で集める</h3>
-            <p>YouTubeやX、RSSなどから関連情報を一箇所にまとめる。</p>
-            <div class="card__effect">効果：毎朝の情報収集が短くなる</div>
-          </article>
+        <p class="drop-cap reveal stagger-2">今、あなたに一番必要なのは新しいことを増やすことじゃなくて、今の活動をもっと楽に回せる仕組みを作ることだと思う。</p>
 
-          <article class="card reveal stagger-2">
-            <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M24 12v6"/>
-              <path d="M24 30v6"/>
-              <path d="M12 24h6"/>
-              <path d="M30 24h6"/>
-              <circle cx="24" cy="24" r="6"/>
-              <path d="M34 14l3-3"/>
-              <path d="M11 37l3-3"/>
-            </svg>
-            <h3>AIで下書きを作る</h3>
-            <p>タイムスタンプや字幕、告知文の下書きを自動生成する。</p>
-            <div class="card__effect">効果：機械的作業を減らしつつ、言い回しはそのまま残す</div>
-          </article>
+        <div class="roadmap reveal">
+          <div class="roadmap-item stagger-1">
+            <div class="roadmap-item__num">01</div>
+            <div class="roadmap-item__title">タイムスタンプ自動化</div>
+            <div class="roadmap-item__desc">もう出来上がってる。長い配信の章立てを自動で作る。</div>
+          </div>
+          <div class="roadmap-item stagger-2">
+            <div class="roadmap-item__num">02</div>
+            <div class="roadmap-item__title">字幕自動化</div>
+            <div class="roadmap-item__desc">同じ仕組みで、動画字幕の下書きも自動生成できる。</div>
+          </div>
+          <div class="roadmap-item stagger-3">
+            <div class="roadmap-item__num">03</div>
+            <div class="roadmap-item__title">作業フロー整理</div>
+            <div class="roadmap-item__desc">編集・サムネ・告知のテンプレート化で、時間を短縮する。</div>
+          </div>
+        </div>
 
-          <article class="card reveal stagger-3">
-            <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="6" y="10" width="12" height="28" rx="2"/>
-              <rect x="18" y="10" width="12" height="28" rx="2"/>
-              <rect x="30" y="10" width="12" height="28" rx="2"/>
-              <circle cx="12" cy="18" r="2" fill="currentColor"/>
-              <circle cx="24" cy="28" r="2" fill="currentColor"/>
-              <circle cx="36" cy="22" r="2" fill="currentColor"/>
-            </svg>
-            <h3>ワークフローを見える化</h3>
-            <p>今どの作業が滞留しているか、一目でわかるダッシュボード。</p>
-            <div class="card__effect">効果：次に何をすべきか、考える時間が減る</div>
-          </article>
+        <div class="note reveal">
+          <p>この 3 つは、新しいことを始めるためじゃなくて、今の活動を楽にするため。全部をいきなり入れる必要はない。まずタイムスタンプだけ試して、効果を確かめてみてほしい。</p>
+        </div>
+
+        <h3 class="section-subtitle reveal">余裕ができたら、エロゲを「語る」チャンネルへ</h3>
+
+        <p class="reveal stagger-1">「なぜ今、エロゲオタクがかっこいいと言われるのか」っていう動画を見て、あなたのチャンネルにはうわべの楽しさより本当の痛みを語る力があるって感じた。余裕ができたら、もっと専門家としての方向性を一緒に考えたい。</p>
+
+        <div class="market-map reveal stagger-2">
+          <div class="market-card">
+            <div class="market-card__label">現状</div>
+            <div class="market-card__title">男性配信者が多い</div>
+            <p>エロゲやギャルゲをプレイする VTuber は多いけど、多くは男性。</p>
+          </div>
+          <div class="market-card">
+            <div class="market-card__label">機会</div>
+            <div class="market-card__title">女性・解説の空白</div>
+            <p>本気でクリエイター視点で語る女性 VTuber は少ない。</p>
+          </div>
+        </div>
+
+        <blockquote class="quoted reveal stagger-1">
+          作品を楽しむのと同じくらい、作者が何を考えて作ったかを知りたい。
+        </blockquote>
+
+        <p class="reveal stagger-2">僕は作品と作者を半分ずつ楽しむタイプで、最近は今敏監督の個人ブログも読んでる。エロゲでも、脚本家が何を意図してこのシーンやシステムを入れたのかを一緒に掘り下げる動画ができたら面白いと思う。</p>
+
+        <div class="plan-grid reveal">
+          <div class="plan-card stagger-1">
+            <h4>企画案 01</h4>
+            <p>古い gal の H シーンはなぜ消せないのか。興奮のためじゃなく、精神崩壊の境界線やプレイヤーへの問いかけとして機能している部分を語る。</p>
+          </div>
+          <div class="plan-card stagger-2">
+            <h4>企画案 02</h4>
+            <p>Bad End は True End より丁寧に作られている？ 真実や警告、伏線回収を Bad End に隠している脚本家の意図を掘り下げる。</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Act 4: How -->
+    <!-- 第四幕：具体做法 -->
     <section>
       <div class="container">
-        <span class="eyebrow reveal">03 / 具体的な流れ</span>
-        <h2 class="reveal stagger-1">導入は、<br>できるだけ小さく</h2>
+        <span class="eyebrow reveal">三、具体的な流れ</span>
+        <h2 class="reveal stagger-1">時間を取り戻すツール、<br>まず作ってみた</h2>
 
-        <div class="steps">
-          <article class="step reveal">
-            <div class="step__header">
-              <span class="step__num">Step 01</span>
-              <h3>情報を一箇所に集める</h3>
-            </div>
-            <p class="step__note">複数の情報源を一つのダイジェストにまとめる。毎日個別に巡る必要が減る。</p>
-            <figure class="diagram">
-              <svg viewBox="0 0 600 200" role="img" aria-label="YouTube、X、RSS、Newsから情報が一つのダイジェストに集まる">
-                <g filter="url(#sketch)" stroke="#1a1a2e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="30" y="20" width="95" height="50" rx="4"/>
-                  <rect x="30" y="90" width="95" height="50" rx="4"/>
-                  <rect x="30" y="160" width="95" height="30" rx="4"/>
-                  <rect x="480" y="60" width="110" height="80" rx="4"/>
-                  <line x1="125" y1="45" x2="475" y2="90" marker-end="url(#arrowhead)"/>
-                  <line x1="125" y1="115" x2="475" y2="100" marker-end="url(#arrowhead)"/>
-                  <line x1="125" y1="175" x2="475" y2="110" marker-end="url(#arrowhead)"/>
-                </g>
-                <text x="77" y="50" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">YouTube</text>
-                <text x="77" y="120" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#2d2d2d">X</text>
-                <text x="77" y="180" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="11" fill="#2d2d2d">RSS・News</text>
-                <text x="535" y="105" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="14" fill="#2d2d2d">Digest</text>
-              </svg>
-              <figcaption class="diagram-label">情報収集のイメージ</figcaption>
-            </figure>
-            <div class="effect-box">毎日の情報収集を15分以内に</div>
-          </article>
+        <p class="drop-cap reveal stagger-2">配信を見てて、ライブが長いから特定のシーンを探すのが大変だなって思った。なので自分で試しに、配信の音声からタイムスタンプを自動で作るツールを組んでみた。</p>
 
-          <article class="step reveal stagger-1">
-            <div class="step__header">
-              <span class="step__num">Step 02</span>
-              <h3>AIで下書きを作り、あなたが微修正する</h3>
-            </div>
-            <p class="step__note">下書きは機械が作る。最後の判断とトーンは、あなたのまま。</p>
-            <div class="before-after">
-              <div class="ba-box">
-                <div class="ba-label">Before</div>
-                <p>手作業でタイムスタンプを打つ</p>
-                <p class="ba-time">約 60 分 / 配信</p>
-              </div>
-              <div class="ba-box">
-                <div class="ba-label">After</div>
-                <p>自動生成を確認・微修正する</p>
-                <p class="ba-time">約 10 分 / 配信</p>
-              </div>
-            </div>
-            <div class="ba-highlight">個人の言い回しやトーンは変えない</div>
-          </article>
+        <figure class="diagram reveal">
+          <svg viewBox="0 0 600 120" role="img" aria-label="音声をテキスト化して、話題が変わるところを自動検出する">
+            <g filter="url(#sketch)" stroke="#1a1a2e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="30" y="25" width="120" height="70" rx="4"/>
+              <rect x="240" y="25" width="120" height="70" rx="4"/>
+              <rect x="450" y="25" width="120" height="70" rx="4"/>
+              <line x1="150" y1="60" x2="235" y2="60" marker-end="url(#arrowhead)"/>
+              <line x1="360" y1="60" x2="445" y2="60" marker-end="url(#arrowhead)"/>
+            </g>
+            <text x="90" y="65" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="13" fill="#2d2d2d">音声</text>
+            <text x="300" y="65" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="13" fill="#2d2d2d">テキスト</text>
+            <text x="510" y="65" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="13" fill="#2d2d2d">タイムスタンプ</text>
+          </svg>
+          <figcaption class="diagram-label">自動生成の流れ</figcaption>
+        </figure>
 
-          <article class="step reveal stagger-2">
-            <div class="step__header">
-              <span class="step__num">Step 03</span>
-              <h3>進捗を見える化する</h3>
-            </div>
-            <p class="step__note">シンプルなレーンで、各作業の状態を把握する。</p>
-            <figure class="diagram">
-              <svg viewBox="0 0 600 150" role="img" aria-label="ダッシュボード：収集中、編集中、公開済みのレーン">
-                <g filter="url(#sketch)" stroke="#1a1a2e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="20" y="30" width="170" height="110" rx="4"/>
-                  <rect x="215" y="30" width="170" height="110" rx="4"/>
-                  <rect x="410" y="30" width="170" height="110" rx="4"/>
-                  <rect x="40" y="55" width="130" height="32" rx="3" fill="rgba(201,169,110,0.12)"/>
-                  <rect x="235" y="55" width="130" height="32" rx="3" fill="rgba(201,169,110,0.12)"/>
-                  <rect x="235" y="95" width="130" height="32" rx="3" fill="rgba(201,169,110,0.12)"/>
-                  <rect x="430" y="55" width="130" height="32" rx="3" fill="rgba(201,169,110,0.12)"/>
-                </g>
-                <text x="105" y="22" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#8a8a8a">収集中</text>
-                <text x="300" y="22" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#8a8a8a">編集中</text>
-                <text x="495" y="22" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="12" fill="#8a8a8a">公開済み</text>
-                <text x="105" y="76" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="11" fill="#2d2d2d">アーカイブA</text>
-                <text x="300" y="76" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="11" fill="#2d2d2d">切り抜き01</text>
-                <text x="300" y="116" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="11" fill="#2d2d2d">告知文案</text>
-                <text x="495" y="76" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-size="11" fill="#2d2d2d">ショート動画</text>
-              </svg>
-              <figcaption class="diagram-label">ワークフローダッシュボードのイメージ</figcaption>
-            </figure>
-            <div class="effect-box">次に何をすべきか、考える時間が減る</div>
-          </article>
+        <div class="code-block reveal">
+0:00 オープニング / 雑談<br>
+8:42 沙耶の唄 プレイ開始<br>
+23:15 郁紀と沙耶の初対面シーン<br>
+41:07 衝撃の展開（ネタバレ注意）<br>
+58:30 エンディング / 感想
+        </div>
+        <p class="caption reveal">※これは自動生成されたタイムスタンプのイメージ</p>
+
+        <p class="reveal">音声を文字起こしして、話題が変わるところを自動で検出する。YouTube の説明文にそのまま貼れる形で出てくる。自分のサーバーで動かしてるので、お金はかからない。</p>
+
+        <p class="reveal stagger-1">これを応用すれば字幕作りも楽になる。字幕を一から全部打つのは地味に大変だから、自動化できればかなり負担が減る。実際に作ったサンプルは Google Drive に置いてあるので、気が向いたら見てみてほしい。</p>
+
+        <h3 class="section-subtitle reveal">DM から一ヶ月、何をやってたか</h3>
+
+        <div class="timeline reveal">
+          <div class="timeline-item stagger-1">
+            <div class="timeline-item__title">VTuber の overlay 業界レポートを読んだ</div>
+            <div class="timeline-item__desc">VTuberデザイン大全から、overlay がどういう役割を持つのか整理した。</div>
+          </div>
+          <div class="timeline-item stagger-2">
+            <div class="timeline-item__title">古城りーみんの動画を観続けた</div>
+            <div class="timeline-item__desc">galgame 配信だけじゃなく、普段の動画も見て、あなたの様子や負担を知った。</div>
+          </div>
+          <div class="timeline-item stagger-3">
+            <div class="timeline-item__title">タイムスタンプ自動生成ツールを試作</div>
+            <div class="timeline-item__desc">自分のサーバーで動く雛形を完成させて、実際にサンプルも出せた。</div>
+          </div>
+          <div class="timeline-item stagger-3">
+            <div class="timeline-item__title">未来の企画案を 2 つまとめた</div>
+            <div class="timeline-item__desc">H シーンはなぜ消せないのか、Bad End はなぜ重要なのか、の 2 本柱。</div>
+          </div>
         </div>
 
-        <div class="invest reveal">
-          <div class="invest-item">
-            <div class="invest-label">セットアップ側</div>
+        <div class="note note--highlight reveal">
+          <p>ただの overlay 話から、勝手にこんなに広げちゃった。だからこそ、手伝いたいって気持ちだけは本物だって伝えたい。</p>
+        </div>
+
+        <h3 class="section-subtitle reveal">手作業と自動化の違い</h3>
+
+        <div class="comparison reveal">
+          <div class="comparison__box stagger-1">
+            <div class="comparison__label">いま</div>
+            <p>手作業でタイムスタンプを打つ。</p>
+            <div class="comparison__time">約 60 分 / 配信</div>
+          </div>
+          <div class="comparison__box stagger-2">
+            <div class="comparison__label">これから</div>
+            <p>自動生成されたタイムスタンプを確認・微修正する。</p>
+            <div class="comparison__time">約 10 分 / 配信</div>
+          </div>
+        </div>
+
+        <div class="note reveal">
+          <p>個人の言い回しやトーンは変えない。下書きは機械が作るけど、最後の判断とトーンはあなたのまま。</p>
+        </div>
+
+        <h3 class="section-subtitle reveal">導入にかかる負担</h3>
+
+        <div class="investment reveal">
+          <div class="investment__row stagger-1">
+            <div class="investment__label">セットアップ側</div>
             <p>技術構成と初回導入（約1週間）。この部分はこちらでやる。</p>
           </div>
-          <div class="invest-item">
-            <div class="invest-label">使う側</div>
+          <div class="investment__row stagger-2">
+            <div class="investment__label">使う側</div>
             <p>ほぼゼロ。作ったものをそのまま使うだけ。</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Act 5: Closing -->
+    <!-- 第五幕：结尾 -->
     <section class="closing">
       <div class="container">
+        <h2 class="reveal">無理はしないで</h2>
+
+        <p class="drop-cap reveal stagger-1">このメモは「これをやれ」と押し付けるためじゃない。あくまで「こういう風に手伝えたらいいな」という提案。全部を受け入れてほしいわけじゃなくて、「この部分だけ、もう少し聞きたい」くらいで全然いい。</p>
+
+        <div class="numbered-list reveal">
+          <div class="numbered-item stagger-1">
+            <div class="numbered-item__num">01</div>
+            <div>
+              <div class="numbered-item__title">負担を減らす</div>
+              <div class="numbered-item__desc">タイムスタンプ・字幕の自動化から始める。</div>
+            </div>
+          </div>
+          <div class="numbered-item stagger-2">
+            <div class="numbered-item__num">02</div>
+            <div>
+              <div class="numbered-item__title">決めるのはあなた</div>
+              <div class="numbered-item__desc">overlay や世界観は、あなたが決める。</div>
+            </div>
+          </div>
+          <div class="numbered-item stagger-3">
+            <div class="numbered-item__num">03</div>
+            <div>
+              <div class="numbered-item__title">余裕があれば未来を語る</div>
+              <div class="numbered-item__desc">専門家ルートは、今すぐじゃなくていい。</div>
+            </div>
+          </div>
+        </div>
+
         <div class="gold-line reveal" aria-hidden="true"></div>
-        <p class="closing__summary reveal stagger-1">
-          これらはあくまで一つの可能性。<br>決めるのは、いつもあなただ。
-        </p>
-        <p class="closing__next reveal stagger-2">
-          もし気が向いたら、何か話したいことがあれば。<br>無理に返事をする必要はない。
-        </p>
+
+        <p class="closing__statement reveal stagger-1">興味があれば、いつでも話を聞かせてほしい。</p>
+        <p class="closing__next reveal stagger-2">無理に返事をする必要はない。</p>
+
         <p class="signature reveal stagger-3">Sebastian Lim</p>
         <p class="contact reveal stagger-3">いつでもDMください</p>
+
+        <p class="caption reveal">調査・整理には AI（Claude）を使った。でも、手伝いたいって気持ちだけは、本当に自分のもの。</p>
       </div>
     </section>
 
@@ -709,8 +939,6 @@
         });
       }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
       reveals.forEach(function(el) { observer.observe(el); });
-
-      // Fallback: ensure content is visible even if the observer does not fire (e.g. some static renderers)
       setTimeout(function() {
         reveals.forEach(function(el) {
           if (!el.classList.contains('is-visible')) el.classList.add('is-visible');
